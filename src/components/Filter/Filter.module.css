@@ -1,0 +1,11 @@
+input {
+    border: 1px solid #007FFF;
+    border-radius: 4px;
+    font-size: 20px;
+    resize: none;
+}
+
+.title {
+    font-size: 20px;
+    margin: 5px 0px;
+}
