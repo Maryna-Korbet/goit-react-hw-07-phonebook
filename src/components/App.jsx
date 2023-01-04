@@ -47,6 +47,7 @@ export class App extends Component {
 
   render() {
     const { filter, contacts } = this.state;
+    const getVisibleContacts = this.getVisibleContacts();
 
     return (
       <>
@@ -64,7 +65,7 @@ export class App extends Component {
         )}
         
         <ContactList
-          contacts={this.getVisibleContacts()}
+          contacts={getVisibleContacts}
           filter={filter}
           onDeleteContact={this.onDeleteContact}
         />
