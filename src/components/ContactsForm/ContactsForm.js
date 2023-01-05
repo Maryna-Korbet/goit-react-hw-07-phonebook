@@ -64,9 +64,7 @@ class ContactsForm extends Component {
 }
 
     ContactsForm.prototypes = {
-        name: PropTypes.string.isRequired,
-        number: PropTypes.number.isRequired,
-        onSubmit: PropTypes.func.isRequired,
+        handleSubmit: PropTypes.func,
 };
 
 export default ContactsForm;

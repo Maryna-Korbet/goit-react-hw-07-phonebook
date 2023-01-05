@@ -3,7 +3,6 @@ import css from "components/ContactsList/ContactsList.module.css";
 
 function ContactList({ contacts, onDeleteContact }) {
     return (
-        <>
             <ul className={css.list}>
                 {contacts.map(({ id, name, number }) => (
                     <li className={css.info} key={id}>
@@ -16,7 +15,6 @@ function ContactList({ contacts, onDeleteContact }) {
                     </li>
                 ))}
             </ul>
-        </>
     );
 }
 
