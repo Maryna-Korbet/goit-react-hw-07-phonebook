@@ -20,7 +20,7 @@ export class App extends Component {
     const newContact = { id: nanoid(), name, number };
     
     this.state.contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase())
-      ? window.alert(`${name} is alredy in contacts.`)
+      ? alert(`${name} is alredy in contacts.`)
       : this.setState(prevState => {
         return { contacts: [newContact, ...prevState.contacts]};
       });
