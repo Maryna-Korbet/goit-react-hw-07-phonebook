@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers} from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import {
     FLUSH,
@@ -7,30 +7,31 @@ import {
     PERSIST,
     PURGE,
     REGISTER,
-} from 'redux-persist'
+} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-//додаємо слайс import {назва слайса} from 'redux/назва слайса (наприклад import {clicksSlice} from './clickSlice');
+import { contactsReducer } from 'redux/contactsSlice';
+import { filterReducer } from 'redux/filterSlice';
 
-const persistConfig ={
-    key: 'root',
-    storage,
+const persistConfig = {
+  key: 'root',
+  storage,
 };
 
-const persistedReducer = persistReducer (
-    persistConfig,
-    //вписуємо редюсери (наприклад clickSlice.reducer)
-)
+const rootReducer = combineReducers({
+  contacts: contactsReducer, 
+  filter: filterReducer,
+}); 
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    // вписуємо clicks: persistedSliceReducer;
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-});
-
+    reducer:  persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }),
+  });
+  
 export const persistor = persistStore(store);
