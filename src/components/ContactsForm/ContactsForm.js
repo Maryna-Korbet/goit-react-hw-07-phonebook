@@ -1,10 +1,14 @@
 import { useState } from "react";
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact } from 'redux/contactsSlice';
+import { getContacts } from 'redux/selector';
 import css from "components/ContactsForm/ContactsForm.module.css";
 
-export default function ContactsForm ({onSubmit}) {
+export function ContactsForm () {
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
+    const contacts = useSelector(getContacts);
+    const dispatch = useDispatch();
 
     const handleChange = e => {
         const { name, value } = e.currentTarget;
@@ -22,7 +26,12 @@ export default function ContactsForm ({onSubmit}) {
 
     const handleSubmit = e => {
         e.preventDefault();
-        onSubmit({name, number});
+        
+        contacts.some(contact => 
+          contact.name.toLowerCase() === name.toLowerCase() || contact.number === number)
+          ? alert(`Such a name or number was added to the phone book earlier.`)
+          : dispatch(addContact(name, number));
+    
         onReset();
     };
 
@@ -64,7 +73,5 @@ export default function ContactsForm ({onSubmit}) {
     );
     }
 
-    ContactsForm.prototypes = {
-        handleSubmit: PropTypes.func,
-};
+
 
