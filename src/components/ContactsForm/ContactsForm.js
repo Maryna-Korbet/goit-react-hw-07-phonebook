@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
-import { getContacts } from 'redux/selector';
+import { selectContacts } from 'redux/selector';
+import { addСontact } from "redux/operations";
 import css from "components/ContactsForm/ContactsForm.module.css";
 
 export function ContactsForm () {
     const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
-    const contacts = useSelector(getContacts);
+    const [phone, setPhone] = useState('');
+    const contacts = useSelector(selectContacts);
     const dispatch = useDispatch();
 
     const handleChange = e => {
@@ -16,8 +16,8 @@ export function ContactsForm () {
             case 'name':
                 setName(value);
                 break;
-            case 'number':
-                setNumber(value);
+            case 'phone':
+                setPhone(value);
                 break;
             default:
                 return;
@@ -28,16 +28,16 @@ export function ContactsForm () {
         e.preventDefault();
         
         contacts.some(contact => 
-          contact.name.toLowerCase() === name.toLowerCase() || contact.number === number)
-          ? alert(`Such a name or number was added to the phone book earlier.`)
-          : dispatch(addContact(name, number));
+            contact.name.toLowerCase() === name.toLowerCase() || contact.phone === phone)
+            ? alert(`Such a name or number was added to the phone book earlier.`)
+            : dispatch(addСontact({name, phone}));
     
         onReset();
     };
 
     const onReset = () => {
         setName('');
-        setNumber('');
+        setPhone('');
     };
 
     return (
@@ -59,8 +59,8 @@ export function ContactsForm () {
                 <p className={css.title}>Number</p>
                 <input
                     type="tel"
-                    name="number"
-                    value={number}
+                    name="phone"
+                    value={phone}
                     onChange={handleChange}
                     pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                     title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
